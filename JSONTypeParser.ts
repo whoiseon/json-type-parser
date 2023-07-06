@@ -3,9 +3,8 @@ interface InferredOptions
     NestedParse: boolean;
 }
 
-export default class JSONTypeParser<T>
+export default class PrintInferredTypes
 {
-    public Result: T;
     private Options: InferredOptions = {
         NestedParse: true
     };
@@ -14,14 +13,17 @@ export default class JSONTypeParser<T>
      * PrintInferredTypes 클래스의 생성자.
      * @param json 변환할 JSON 객체.
      */
-    constructor(json: any, options?: InferredOptions)
+    constructor(options?: InferredOptions)
     {
         if (options)
         {
             this.Options = options;
         }
+    }
 
-        this.Result = this.ParseObject(json);
+    public Parse<T>(json: any): T
+    {
+        return this.ParseObject(json);
     }
 
     /**
@@ -29,7 +31,7 @@ export default class JSONTypeParser<T>
      * @param obj 변환할 객체.
      * @returns 변환된 객체.
      */
-    private ParseObject(object: any): T
+    private ParseObject(object: any): any
     {
         if ('object' === typeof object && object !== null)
         {
